@@ -3,6 +3,8 @@ import "server-only"
 import { createClient, type SupabaseClient } from "@supabase/supabase-js"
 import { Resend } from "resend"
 
+import { event } from "@/lib/content"
+
 // The only module that reads waitlist secrets or talks to Supabase and Resend.
 
 const UNIQUE_VIOLATION = "23505"
@@ -62,7 +64,7 @@ async function sendConfirmation(
       {
         from,
         to: email,
-        subject: "You're on the St. John's Hacks waitlist",
+        subject: "You've been added to the St. John's Hacks waitlist",
         text: confirmationText(name),
         html: confirmationHtml(name),
       },
@@ -95,12 +97,17 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#39;")
 }
 
+// Date and venue come from lib/content.ts, so the email always matches the site.
 const confirmationText = (name: string) => `Hi ${name},
 
-You're on the St. John's Hacks waitlist.
+You've been added to the St. John's Hacks waitlist.
 
-Registration isn't open yet. We'll email you as soon as it is, along with the date and venue.
+Registration isn't open yet. When it opens, we'll send you another email so you can sign up.
 
+When: ${event.date}
+Where: ${event.venue}
+
+See you there,
 St. John's Hacks`
 
 const confirmationHtml = (name: string) => `<!doctype html>
@@ -108,8 +115,11 @@ const confirmationHtml = (name: string) => `<!doctype html>
   <body style="margin:0;padding:32px 16px;background:#f1ecdf;font-family:Inter,Arial,sans-serif;color:#2e1a16;">
     <div style="max-width:480px;margin:0 auto;">
       <p style="margin:0 0 24px;font-size:28px;font-weight:800;letter-spacing:-0.03em;color:#cf102d;">St. John&rsquo;s Hacks</p>
-      <p style="margin:0 0 16px;font-size:18px;font-weight:600;">Hi ${escapeHtml(name)}, you&rsquo;re on the waitlist.</p>
-      <p style="margin:0 0 16px;font-size:16px;line-height:1.6;">Registration isn&rsquo;t open yet. We&rsquo;ll email you as soon as it is, along with the date and venue.</p>
+      <p style="margin:0 0 16px;font-size:18px;font-weight:600;">Hi ${escapeHtml(name)}, you&rsquo;ve been added to the waitlist.</p>
+      <p style="margin:0 0 24px;font-size:16px;line-height:1.6;">Registration isn&rsquo;t open yet. When it opens, we&rsquo;ll send you another email so you can sign up.</p>
+      <p style="margin:0 0 4px;font-size:16px;line-height:1.6;"><strong>When:</strong> ${escapeHtml(event.date)}</p>
+      <p style="margin:0 0 24px;font-size:16px;line-height:1.6;"><strong>Where:</strong> ${escapeHtml(event.venue)}</p>
+      <p style="margin:0;font-size:16px;line-height:1.6;">See you there,<br>St. John&rsquo;s Hacks</p>
     </div>
   </body>
 </html>`
