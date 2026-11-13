@@ -168,3 +168,31 @@
     }
   }
 }
+
+/* The cursor: a lightning bolt (navy, red and yellow), clicking at its
+   point at the bottom; over anything clickable, the usual pointing hand.
+   High-density screens get a sharper 2x image where supported. Outside any
+   layer so it wins over utility classes like cursor-pointer. Text fields
+   keep the text cursor, and touch screens have no cursor at all. */
+html {
+  cursor: url("/cursors/bolt.png?v=10") 8 30, auto;
+  cursor: image-set(url("/cursors/bolt.png?v=10") 1x, url("/cursors/bolt@2x.png?v=10") 2x) 8 30, auto;
+}
+a,
+button,
+summary,
+label,
+select,
+[role="button"],
+[role="tab"],
+[role="link"] {
+  cursor: pointer;
+}
+input:not([type="button"], [type="submit"], [type="checkbox"], [type="radio"]),
+textarea,
+[contenteditable="true"] {
+  cursor: text;
+}
+:disabled {
+  cursor: not-allowed;
+}

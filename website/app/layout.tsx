@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Knewave, Space_Grotesk } from "next/font/google";
+import { seo, siteUrl } from "@/lib/content";
 import "./globals.css";
 
 const grotesk = Space_Grotesk({
@@ -21,10 +22,28 @@ const paint = Knewave({
   subsets: ["latin"],
 });
 
+// What search engines and link previews show. The preview image comes from
+// app/opengraph-image.jpg.
 export const metadata: Metadata = {
-  title: "St. John's Hacks",
-  description:
-    "St. John's Hacks is a student-run hackathon at St. John's University.",
+  metadataBase: new URL(siteUrl),
+  title: seo.title,
+  description: seo.description,
+  keywords: seo.keywords,
+  applicationName: "St. John's Hacks",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "St. John's Hacks",
+    title: seo.title,
+    description: seo.description,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seo.title,
+    description: seo.description,
+  },
 };
 
 export const viewport: Viewport = {

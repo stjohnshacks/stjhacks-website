@@ -6,6 +6,33 @@ export const event = {
   venue: "Marillac Terrace, St. John's University Queens Campus",
 }
 
+// The site's address, used for search engines (sitemap, robots, links in the
+// event details). Set NEXT_PUBLIC_SITE_URL to the final domain; on Vercel it
+// falls back to the project's production address.
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000")
+
+// What shows up on Google: the page title (the blue link) and description
+// (the text under it), taken from the hero.
+export const seo = {
+  title: "St. John's Hacks 2027 | NYC's Red Storm Hackathon",
+  description:
+    "A Red Storm is brewing over NYC. St. John's Hacks is a free, 36-hour student hackathon on Feb 6–7, 2027 at St. John's University in Queens. Every major and skill level welcome. Food included. Join the waitlist.",
+  keywords: [
+    "St. John's Hacks",
+    "hackathon",
+    "NYC hackathon",
+    "Queens",
+    "St. John's University",
+    "Red Storm",
+    "student hackathon",
+    "beginner-friendly hackathon",
+  ],
+}
+
 // Shown on the subway train below the hero. Check the address and map link
 // before launch.
 export const location = {
@@ -238,7 +265,7 @@ export const sponsors = {
     {
       name: "St. John's Collins College of Professional Studies",
       logo: "/sponsors/st-johns-ccps.jpg",
-      href: "https://www.stjohns.edu/academics/schools/lesley-h-and-william-l-collins-college-professional-studies",
+      href: "https://www.stjohns.edu/academics/schools/college-professional-studies",
       background: "#061b2e",
       fit: "contain",
       zoom: 1,
