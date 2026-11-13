@@ -4,12 +4,40 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* The sponsors logo row: slides its doubled row left by one copy's width, so
+   the loop is seamless. */
+@theme {
+  --animate-ticker: ticker 40s linear infinite;
+  /* Neon that catches now and then, like a tube on its way out. */
+  --animate-flicker: flicker 6s linear infinite;
+
+  @keyframes flicker {
+    0%, 18%, 20%, 22%, 62%, 64%, 100% {
+      opacity: 1;
+    }
+    19%, 21%, 63% {
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes ticker {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-grotesk);
   --font-mono: ui-monospace, monospace;
-  --font-heading: var(--font-inter);
+  --font-heading: var(--font-grotesk);
+  --font-display: var(--font-anton);
+  --color-signal: var(--signal);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,26 +77,29 @@
 }
 
 :root {
-  /* Newsprint */
-  --background: #f1ecdf;
-  --foreground: #2e1a16;
-  --card: #f8f5ec;
-  --card-foreground: #2e1a16;
-  --popover: #f8f5ec;
-  --popover-foreground: #2e1a16;
-  /* St. John's red, PMS 186 (university brand identity guide). */
+  /* Night sky navy, matching the hero scene. */
+  --background: #050a1a;
+  --foreground: #f3eee4;
+  --card: #0d1733;
+  --card-foreground: #f3eee4;
+  --popover: #0d1733;
+  --popover-foreground: #f3eee4;
+  /* St. John's red, PMS 186 (university brand identity guide). Used for
+     fills and large headings; it's too dark for small text on navy. */
   --primary: #cf102d;
   --primary-foreground: #f8f5ec;
-  --secondary: #e5ddcb;
-  --secondary-foreground: #2e1a16;
-  --muted: #e5ddcb;
-  --muted-foreground: #5f4d47;
-  --accent: #e5ddcb;
-  --accent-foreground: #a50d24;
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: #d6cbb4;
-  --input: #d6cbb4;
-  --ring: #cf102d;
+  /* A lighter red for small text on navy (about 6:1 contrast). */
+  --signal: #ff5468;
+  --secondary: #16224a;
+  --secondary-foreground: #f3eee4;
+  --muted: #16224a;
+  --muted-foreground: #9ba6c4;
+  --accent: #16224a;
+  --accent-foreground: #ff5468;
+  --destructive: #ff6b6b;
+  --border: #1f2c55;
+  --input: #2a3a6b;
+  --ring: #ff5468;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -128,6 +159,7 @@
   }
   html {
     @apply font-sans;
+    color-scheme: dark;
     scroll-padding-top: 4.5rem;
   }
   @media (prefers-reduced-motion: no-preference) {

@@ -1,6 +1,7 @@
 "use client"
 
 import { MenuIcon } from "lucide-react"
+import { useState } from "react"
 
 import { RegisterButton, SignInButton } from "@/components/site/auth-buttons"
 import { Button } from "@/components/ui/button"
@@ -16,14 +17,15 @@ import {
 import { navLinks } from "@/lib/content"
 
 export function MobileMenu() {
+  const [open, setOpen] = useState(false)
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         render={
           <Button
             variant="ghost"
             size="icon-lg"
-            className="rounded-full text-primary-foreground hover:bg-primary-foreground/15 hover:text-primary-foreground lg:hidden"
+            className="rounded-full text-white hover:bg-white/10 hover:text-white lg:hidden"
             aria-label="Open menu"
           />
         }
@@ -42,7 +44,7 @@ export function MobileMenu() {
               render={
                 <a
                   href={link.href}
-                  className="rounded-md py-3 text-lg font-semibold text-primary outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                  className="rounded-md py-3 text-lg font-semibold text-foreground outline-none hover:text-signal focus-visible:ring-3 focus-visible:ring-ring/50"
                 />
               }
             >
@@ -51,8 +53,8 @@ export function MobileMenu() {
           ))}
         </nav>
         <SheetFooter>
-          {/* SheetClose so the menu closes on the way to the waitlist form. */}
-          <SheetClose render={<RegisterButton className="w-full" />} nativeButton={false} />
+          {/* The menu closes when Register sends someone on to the waitlist. */}
+          <RegisterButton className="w-full" onNavigate={() => setOpen(false)} />
           <SignInButton className="w-full" />
         </SheetFooter>
       </SheetContent>

@@ -1,33 +1,50 @@
 import Image from "next/image"
 
+import { StormSkyline } from "@/components/site/storm-skyline"
 import { WaitlistForm } from "@/components/site/waitlist-form"
-import { event, mascot } from "@/lib/content"
+import { mascot } from "@/lib/content"
 
 export function Hero() {
   return (
-    <section className="relative flex flex-col overflow-hidden px-4 pt-6 sm:min-h-[calc(100svh-4.25rem)] sm:px-8">
-      <h1 className="text-center text-[min(17.6vw,32svh)] leading-[0.88] font-extrabold tracking-[-0.06em] text-primary uppercase">
-        St. John&rsquo;s
-        <br />
-        Hacks
-      </h1>
-      <WaitlistForm />
-      <div className="mt-6 flex justify-between gap-6 font-semibold text-primary sm:absolute sm:inset-x-8 sm:bottom-6 sm:mt-0 sm:items-end">
-        <p>{event.venue}</p>
-        <p className="text-right">{event.date}</p>
-      </div>
+    <section
+      aria-labelledby="hero-title"
+      className="relative isolate flex min-h-svh flex-col overflow-hidden"
+    >
+      <StormSkyline className="absolute inset-0 -z-10" />
+      {/* Darkens the bottom so the text reads, and fades into the page below. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-3/5 bg-linear-to-b from-transparent via-background/55 to-background"
+      />
       {mascot && (
-        <div className="relative mx-auto mt-8 h-[42svh] sm:mt-auto w-full max-w-md sm:w-2/5 sm:max-w-none">
+        <div className="pointer-events-none absolute inset-x-0 bottom-[12vw] -z-10 mx-auto h-[45svh] w-full max-w-md">
           <Image
             src={mascot}
             alt="The St. John's mascot flexing"
             fill
             preload
-            sizes="(min-width: 640px) 40vw, 100vw"
+            sizes="(min-width: 640px) 28rem, 100vw"
             className="object-contain object-bottom"
           />
         </div>
       )}
+
+      {/* The date and address ride in on the subway train just below. */}
+      <div className="mt-auto px-4 pt-36 pb-3 sm:px-8 sm:pb-4">
+        <h1
+          id="hero-title"
+          className="font-display text-[15vw] leading-[0.92] tracking-tight whitespace-nowrap text-primary uppercase sm:text-[9vw] sm:leading-[0.86]"
+        >
+          St. John&rsquo;s <br className="sm:hidden" />
+          Hacks
+        </h1>
+        {/* Sized and capped so it sets as two balanced lines on larger screens. */}
+        <p className="mt-4 max-w-3xl text-base leading-snug font-bold text-balance text-white uppercase sm:mt-6 sm:text-[20px]">
+          A Red Storm is brewing over NYC. Join us for an electrifying
+          36-hour hackathon on Feb 6–7 at St. John&rsquo;s University.
+        </p>
+        <WaitlistForm className="mt-3 max-w-xl sm:mt-4" />
+      </div>
     </section>
   )
 }
