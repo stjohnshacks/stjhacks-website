@@ -7,8 +7,8 @@ import { contact, navLinks } from "@/lib/content"
 // over Johnny Thunderbird in binary; a column of the page's sections;
 // and the social links and email, each just its icon and name. A thin bar
 // along the bottom carries the copyright.
-export function Footer() {
-  const year = new Date().getFullYear()
+export async function Footer() {
+  const year = await currentYear()
   return (
     <footer className="relative border-t border-white/15 bg-background">
       <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 py-14 sm:px-8 md:grid-cols-[1.3fr_1fr_1fr] md:gap-10 md:py-20">
@@ -71,6 +71,14 @@ export function Footer() {
       </div>
     </footer>
   )
+}
+
+// The year for the copyright. With Cache Components on, the page is
+// prerendered, and Next won't read the clock during that unless the value is
+// marked as fine to cache, so it's cached here and refreshed as the page is.
+async function currentYear() {
+  "use cache"
+  return new Date().getFullYear()
 }
 
 // Johnny Thunderbird's head in 0s and 1s, traced from the St. John's
